@@ -36,23 +36,24 @@ $( () => {
                 [0,4,8],[2,4,6]
         ];
         //checks each win pattern 
-        let xCount;
-        let yCount;
+        let winner = false; 
         winCombinations.forEach(combo => {
             //and stores their current markers into an array
             const squareCheck = [];
             [0,1,2].forEach(index => {
                 squareCheck.push($('.square').eq(combo[index]).children().text());
             });
-            //then stores marker count into variables
-            xCount = squareCheck.filter(square => square === "X").length; 
-            yCount = squareCheck.filter(square => square === "O").length;
+            //then stores marker count into variables and creates win functions
+            let xCount = squareCheck.filter(square => square === "X").length; 
+            let yCount = squareCheck.filter(square => square === "O").length;
+            const xWins = () => {endGame("X");winner = true;}
+            const oWins = () => {endGame("Y");winner = true;}
             //and checks for winner
-            xCount === 3 ? endGame("X") :  
-            yCount === 3 ? endGame("O") : false;
+            xCount === 3 ? xWins() :  
+            yCount === 3 ? oWins() : false;
         });
         //checks for tie; must be outside of forEach so that all combinations can be checked first
-        ($('.full').length === 9) && (xCount !== 3) && (yCount !== 3) ? endGame("tie") : false;
+        ($('.full').length === 9) && (winner === false) ? endGame("tie") : false;
     }
 
     //ends the game based on winner
