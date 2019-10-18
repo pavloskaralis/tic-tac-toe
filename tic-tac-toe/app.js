@@ -43,16 +43,16 @@ $( () => {
             [0,1,2].forEach(index => {
                 squareCheck.push($('.square').eq(combo[index]).children().text());
             });
-            //then stores marker count into variables and creates win functions
-            let xCount = squareCheck.filter(square => square === "X").length; 
-            let yCount = squareCheck.filter(square => square === "O").length;
+            //then creates win functions; necessary for executing statement via conditional 
             const xWins = () => {endGame("X");winner = true;}
             const oWins = () => {endGame("Y");winner = true;}
             //and checks for winner
-            xCount === 3 ? xWins() :  
-            yCount === 3 ? oWins() : false;
+            squareCheck.filter(square => square === "X").length === 3 ? xWins() :  
+            squareCheck.filter(square => square === "O").length === 3 ? oWins() : false;
         });
-        //checks for tie; must be outside of forEach so that all combinations can be checked first
+        //checks for tie
+        //must be outside of forEach so that all combinations can be checked first
+        //winner bolean must be used to prevent final conditional overide 
         ($('.full').length === 9) && (winner === false) ? endGame("tie") : false;
     }
 
